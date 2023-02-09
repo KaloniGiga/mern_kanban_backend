@@ -47,43 +47,6 @@ app.use("/api/v1", favoriteRoutes);
 app.use("/api/v1", cardRoutes);
 app.use("/api/v1", listRoutes);
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-     cb(null, __dirname + '/public');
-  },
-
-  filename: (req, file, cb) => {
-
-    cb(null, file.originalname);
-  }
-})
-
-const upload = multer({
-  storage: storage,
-  limits: {
-      fileSize: 10000000
-  },
-  fileFilter(req, file, cb) {
-      if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
-          return cb(new Error('Please upload a valid image file'))
-      }
-      cb(null, true)
-  }
-})
-
-app.post('/api/v1/image', upload.single('profile'), async (req, res) => {
-  try {
-       console.log(req.file)
-
-      const filename = `user--${Date.now()}.jpeg`;
-
-      // await sharp(req.file?.buffer).resize({ width: 250, height: 250 }).toFormat('jpeg').jpeg({quality: 90}).toFile(__dirname + `public/${filename}`)
-       res.status(201).send('Image uploaded succesfully')
-  } catch (error) {
-      console.log(error)
-      res.status(400).send(error)
-  }
-})
 
 app.use(errorMiddleware)
 

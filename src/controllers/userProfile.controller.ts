@@ -119,7 +119,6 @@ export const resetPassword = async (
       );
     }
     
-    console.log("password and confirmpassword validated")
 
     const TokenExist = await ForgetPassword.findOne({
       resetPasswordToken: token,
@@ -132,7 +131,6 @@ export const resetPassword = async (
       );
     }
 
-    console.log("token exists ")
 
     const user = await User.findOne({ _id: TokenExist.userId });
 
@@ -144,16 +142,13 @@ export const resetPassword = async (
       return next(new ErrorHandler(404, "User is invalid"));
     }
 
-    console.log("user also exist")
     user.hashedPassword = password;
     (user.isGoogleAuth = false), (user.emailVerified = true);
 
-    console.log("user configuration saved");
     await EmailVerify.deleteOne({ userId: user._id });
     await RefreshToken.deleteOne({ userId: user._id });
     await ForgetPassword.deleteOne({ _id: TokenExist._id });
 
-    console.log("email refreshtoken, forgetPassword deleted");
     await user.save();
 
     const accessToken = await generateAccessToken({ _id: user._id.toString() });
@@ -251,11 +246,9 @@ export const updateProfile = async (
 
     user.avatar = `${process.env.SERVER_URL!}${process.env.BASE_PATH!}${process.env.STATIC_PATH!}/${profile.originalname}`;
 
-    console.log(user.avatar);
     }
 
     await user.save();
-    console.log(user);
     res.status(200).json({ success: true, user });
 
 
@@ -347,7 +340,6 @@ export const verifyEmail = async (
       return next(new ErrorHandler(400, "Invalid userId"));
     }
 
-    console.log(
       "userId is validated.",
       typeof VERIFY_EMAIL_TOKEN_LENGTH,
       typeof token.length
@@ -359,7 +351,6 @@ export const verifyEmail = async (
       return next(new ErrorHandler(400, "token length must be 40"));
     }
 
-    console.log("token is verified", userId, token);
 
     const user = await User.findOne({ _id: userId }).select(
       "_id email emailVerified"
@@ -369,19 +360,16 @@ export const verifyEmail = async (
       return next(new ErrorHandler(400, "Invalid email validation link"));
     }
 
-    console.log("user is found");
 
     if (user.email !== req.user.email) {
       return next(new ErrorHandler(400, "Verification failed."));
     }
     
-    console.log("user email is valid");
 
     if (user.emailVerified === true) {
       return next(new ErrorHandler(200, "Email verified"));
     }
 
-    console.log("users email is not verified.");
 
     const emailVerification = await EmailVerify.findOne({
       userId: user._id,
@@ -507,7 +495,6 @@ export const searchUser = async (
       return next(new ErrorHandler(400, "query value is required"));
     }
 
-    console.log("query is validated");
     //find the users whose username or email matches the query string.
     const users = await User.find({
       $and: [
@@ -581,7 +568,6 @@ export const searchUser = async (
       });
     }
 
-    console.log(
       "All the users matching the query string and are members of workspace are matched",
       AllUsers
     );
@@ -630,7 +616,6 @@ export const searchBoardUser = async (
       .lean()
       .select("_id username email avatar");
 
-    console.log("users matching query string are fetched", users);
     //validate workspace
     if (!boardId || !mongoose.isValidObjectId(boardId)) {
       return next(
