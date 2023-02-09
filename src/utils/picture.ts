@@ -20,11 +20,7 @@ export const savePicture = async (
 ) => {
   const fileName = new Date().toISOString() + createRandomToken(24) + ".jpeg";
 
-  await sharp()
-    .resize(width, height)
-    .toFormat("jpeg")
-    .jpeg({ quality: 85 })
-    .toFile(path.join(PUBLIC_DIR, directory, fileName));
+
 
   return fileName;
 };

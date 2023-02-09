@@ -137,7 +137,6 @@ export const createWorkSpace = async (
         name: newWorkSpace.name,
         role: "Admin",
         isFavorite: newWorkSpace.isFavorite,
-        icon: newWorkSpace.picture,
         boards: [],
       },
     });
@@ -186,24 +185,12 @@ export const getWorkSpaceDetail = async (
       (m: any) => m.memberId.toString() === req.user._id.toString()
     )?.role;
 
-    const STATIC_PATH = process.env.STATIC_PATH || "/static";
-    const WORKSPACE_PICTURE_DIR_NAME =
-      process.env.WORKSPACE_PICTURE_DIR_NAME || "workspace_icons";
-
     res.status(201).json({
       success: true,
       workspace: {
         _id: workSpace._id,
         name: workSpace.name,
         description: workSpace.description,
-        picture: workSpace.picture
-          ? process.env.FULL_BASE_PATH +
-            path.join(
-              STATIC_PATH,
-              WORKSPACE_PICTURE_DIR_NAME,
-              workSpace.picture
-            )
-          : undefined,
         myRole: role,
         isFavorite: favorite ? true : false,
         favoriteId: favorite && favorite._id,
@@ -470,8 +457,7 @@ export const getAllWorkSpaceMembers = async (
 
     const FULL_BASE_PATH = process.env.FULL_BASE_PATH;
     const STATIC_PATH = process.env.STATIC_PATH || "/static";
-    const PROFILE_PICS_DIR_NAME =
-      process.env.PROFILE_PICS_DIR_NAME || "profile_pics";
+    const PUBLIC_DIR_NAME = process.env.PUBLIC_DIR_NAME || 'public'
 
     const Admins = workspace.members.filter(
       (member: any) => member.role === "ADMIN"
@@ -491,7 +477,7 @@ export const getAllWorkSpaceMembers = async (
             : FULL_BASE_PATH +
               path.join(
                 STATIC_PATH,
-                PROFILE_PICS_DIR_NAME,
+                PUBLIC_DIR_NAME,
                 mem.memberId.avatar
               )),
         role: mem.role,
