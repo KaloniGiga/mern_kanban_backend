@@ -340,10 +340,9 @@ export const verifyEmail = async (
       return next(new ErrorHandler(400, "Invalid userId"));
     }
 
-      "userId is validated.",
-      typeof VERIFY_EMAIL_TOKEN_LENGTH,
-      typeof token.length
-    );
+     
+
+    
 
     if (!token) {
       return next(new ErrorHandler(400, "token is required"));
@@ -568,9 +567,7 @@ export const searchUser = async (
       });
     }
 
-      "All the users matching the query string and are members of workspace are matched",
-      AllUsers
-    );
+ 
     res.status(200).json({
       success: true,
       users: AllUsers,
