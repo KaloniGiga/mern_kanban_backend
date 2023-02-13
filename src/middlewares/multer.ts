@@ -15,9 +15,6 @@ import fs from 'fs'
 export const multerUpload = async (req:any, res:Response, next: NextFunction, fileName: string) => {
 
 
-    const nameOfFile = new Date().toISOString() + await createRandomToken(20) + ".jpg";
-    const pictureDir = path.join(process.env.PUBLIC_DIR_NAME!, process.env.PROFILE_PICS_DIR_NAME!)
-
     console.log(fileName);
   
 
