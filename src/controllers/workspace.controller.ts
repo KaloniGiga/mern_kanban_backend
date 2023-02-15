@@ -470,16 +470,7 @@ export const getAllWorkSpaceMembers = async (
       return {
         _id: mem.memberId._id,
         username: mem.memberId.username,
-        avatar:
-          mem.memberId.avatar &&
-          (mem.memberId.avatar.match(new RegExp("http"))
-            ? mem.memberId.avatar
-            : FULL_BASE_PATH +
-              path.join(
-                STATIC_PATH,
-                PUBLIC_DIR_NAME,
-                mem.memberId.avatar
-              )),
+        avatar: mem.memberId.avatar ,
         role: mem.role,
         isOnlyAdmin:
           mem.role === "ADMIN" && Admins?.length === 1 ? true : false,
