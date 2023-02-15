@@ -27,10 +27,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const AuthController = __importStar(require("../controllers/auth.controller"));
+const auth_middleware_1 = require("../middlewares/auth.middleware");
+const FavoriteCtrl = __importStar(require("../controllers/favorite.controller"));
 const router = express_1.default.Router();
-router.route("/register").post(AuthController.registerUser);
-router.route("/login").post(AuthController.loginUser);
-router.route("/google").post(AuthController.googleAuth);
-router.route("/refresh").post(AuthController.refreshAccessToken);
+router.route("/favorites").get(auth_middleware_1.isLoggedIn, FavoriteCtrl.getFavorites);
+router.route("/favorite/add").post(auth_middleware_1.isLoggedIn, FavoriteCtrl.addToFavorites);
+router.route("/favorite/:id").delete(auth_middleware_1.isLoggedIn, FavoriteCtrl.removeFavorite);
 exports.default = router;

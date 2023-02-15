@@ -16,10 +16,10 @@ const EmailVerifySchema = new mongoose_1.default.Schema({
         required: true,
     },
     EmailVerificactionExpire: {
-        type: Date,
+        type: Number,
         required: true,
-        default: Date.now() + 1000 * 60 * 60 * 24,
-    }
+        default: Date.now() + 1000 * 60 * 60,
+    },
 }, { timestamps: true });
 const EmailVerify = mongoose_1.default.model("EmailVerify", EmailVerifySchema);
 exports.default = EmailVerify;

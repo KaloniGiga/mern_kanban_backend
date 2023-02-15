@@ -9,7 +9,7 @@ router.route("/password/forget").post(userCtrl.forgotPassword);
 router.route("/password/reset/:token").post(userCtrl.resetPassword);
 
 router.route("/profile/update").put(isLoggedIn,
-     function (req, res, next) { multerUpload(req, res, next, "profile")},
+   //  function (req, res, next) { multerUpload(req, res, next, "profile")},
       userCtrl.updateProfile);
 
 router.route("/profile/delete").delete(isLoggedIn, userCtrl.deleteProfile);

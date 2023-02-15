@@ -16,10 +16,10 @@ const ForgetPasswordSchema = new mongoose_1.default.Schema({
         required: true,
     },
     resetPasswordTokenExpire: {
-        type: Date,
+        type: Number,
         required: true,
-        default: Date.now() + 1000 * 60 * 15,
-    }
+        default: Date.now() + 1000 * 60 * 60,
+    },
 }, { timestamps: true });
 const ForgetPassword = mongoose_1.default.model("ForgotPassword", ForgetPasswordSchema);
 exports.default = ForgetPassword;

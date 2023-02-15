@@ -94,6 +94,10 @@ export const createBoard = async (
       newBoard.bgImage = bgImage;
     }
 
+    if(color) {
+      newBoard.color = color;
+    }
+
     if (boardVisibility) {
       newBoard.visibility = boardVisibility;
     }

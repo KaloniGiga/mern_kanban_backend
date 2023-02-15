@@ -13,7 +13,7 @@ const UserSchema = new mongoose_1.default.Schema({
         minLength: 3,
         validate: {
             validator: function (value) {
-                return /^[A-Za-z0-9_-]*$/.test(value);
+                return /^[A-Za-z0-9_-\s]*$/.test(value);
             },
             message: "Username must only contain letters, numbers, underscores and dashes",
         },
@@ -29,7 +29,7 @@ const UserSchema = new mongoose_1.default.Schema({
                 return validator_1.default.isEmail(value);
             },
             message: "Email is not valid",
-        }
+        },
     },
     isGoogleAuth: {
         type: Boolean,
@@ -39,27 +39,17 @@ const UserSchema = new mongoose_1.default.Schema({
     hashedPassword: {
         type: String,
         select: false,
-        required: function () {
-            return !this.isGoogleAuth;
-        },
         minLength: 8,
-        validate: {
-            validator: function (value) {
-            }
-        },
         trim: true,
     },
     avatar: {
-        type: Buffer,
-        contentType: String
+        type: String,
     },
     emailVerified: {
         type: Boolean,
         default: false,
-        required: true
+        required: true,
     },
-    resetPasswordToken: String,
-    resetPasswordExpire: Date
 }, { timestamps: true });
 //middlewares
 UserSchema.pre("save", async function (next) {
@@ -70,7 +60,8 @@ UserSchema.pre("save", async function (next) {
     next();
 });
 UserSchema.methods.comparePassword = async function (password) {
+    console.log("validating password");
     return await bcrypt_1.default.compare(password, this.hashedPassword);
 };
-const User = mongoose_1.default.model('User', UserSchema);
+const User = mongoose_1.default.model("User", UserSchema);
 exports.default = User;

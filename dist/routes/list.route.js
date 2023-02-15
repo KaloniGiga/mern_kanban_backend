@@ -27,10 +27,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const AuthController = __importStar(require("../controllers/auth.controller"));
+const auth_middleware_1 = require("../middlewares/auth.middleware");
+const ListController = __importStar(require("../controllers/list.controller"));
 const router = express_1.default.Router();
-router.route("/register").post(AuthController.registerUser);
-router.route("/login").post(AuthController.loginUser);
-router.route("/google").post(AuthController.googleAuth);
-router.route("/refresh").post(AuthController.refreshAccessToken);
+router.route("/list/create").post(auth_middleware_1.isLoggedIn, ListController.createList);
+router.route("/:boardId/lists").get(auth_middleware_1.isLoggedIn, ListController.getLists);
+router.route("/:listId/update").put(auth_middleware_1.isLoggedIn, ListController.updateList);
+router.route("/:listId/delete").delete(auth_middleware_1.isLoggedIn, ListController.deleteList);
 exports.default = router;

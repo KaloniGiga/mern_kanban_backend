@@ -177,8 +177,8 @@ export const updateProfile = async (
   try {
 
    // const profile = req.file;
-    const {username} = req.body;
-    const profile = req.file;
+    const {username, profile} = req.body;
+    //const profile = req.file;
 
     if(!username && !profile) {
        return next(new ErrorHandler(400, "Nothing provided"))
@@ -220,31 +220,28 @@ export const updateProfile = async (
     if(profile) {
       
 
-       if(user.avatar && !user.isGoogleAuth && user.avatar ) {
-           fs.unlink(path.join(process.env.PUBLIC_DIR_NAME!, user.avatar), (error) => {
+      //  if(user.avatar && !user.isGoogleAuth && user.avatar ) {
+      //      fs.unlink(path.join(process.env.PUBLIC_DIR_NAME!, user.avatar), (error) => {
             
-            if(error) {
-                console.log(error);
-              }else {
-                console.log("file deleted successfully")
-              }
-          })
-       }
-    
-       
-
-    const fileName = new Date(Date.now()).toISOString()+ ".jpeg";
+      //       if(error) {
+      //           console.log(error);
+      //         }else {
+      //           console.log("file deleted successfully")
+      //         }
+      //     })
+      //  }
      
 
-    console.log()
-     sharp(profile.buffer)
-    .resize(250, 250)
-    .toFormat("jpeg")
-    .toFile(path.resolve(__dirname, `../public/${profile.originalname}`)).then((data) => {
-      console.log(data)
-    }).catch((err) => console.log(err) );
+    //if we are using multer
 
-    user.avatar = `${process.env.SERVER_URL!}${process.env.BASE_PATH!}${process.env.STATIC_PATH!}/${profile.originalname}`;
+    //  sharp(profile.buffer)
+    // .resize(250, 250)
+    // .toFormat("jpeg")
+    // .toFile(path.resolve(__dirname, `../public/${profile.originalname}`)).then((data) => {
+    //   console.log(data)
+    // }).catch((err) => console.log(err) );
+
+    user.avatar = profile;
 
     }
 

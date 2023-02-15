@@ -72,6 +72,7 @@ export const getFavorites = async (
           _id: fav._id,
           type: "WORKSPACE",
           name: fav.name,
+          
           visibility: fav.visibility,
           members: fav.members,
           isFavorite: FavoriteId ? true : false,
@@ -95,6 +96,7 @@ export const getFavorites = async (
         return {
           _id: fav._id,
           name: fav.name,
+         
           type: "BOARD",
           visibility: fav.visibility,
           bgImage: fav.bgImage,
